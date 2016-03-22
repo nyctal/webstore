@@ -37,7 +37,23 @@ public class InMemoryProductRepository implements ProductRepository{
         listOfProducts.add(laptop_dell);
         listOfProducts.add(tablet_Nexus);
     }
+    @Override
     public List<Product> getAllProducts() {
         return listOfProducts;
+    }
+
+    @Override
+    public Product getProductById(String productId) {
+        Product productById = null;
+        for(Product product : listOfProducts) {
+            if(product!=null && product.getProductId()!=null && product.getProductId().equals(productId)){
+                productById = product;
+                break;
+            }
+        }
+        if(productById == null){
+            throw new IllegalArgumentException("No products found with the product id: "+ productId);
+        }
+        return productById;
     }
 }
