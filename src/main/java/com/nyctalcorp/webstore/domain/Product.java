@@ -3,8 +3,14 @@ package com.nyctalcorp.webstore.domain;
 /**
  * Created by Giacinto on 18/03/2016.
  */
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.math.BigDecimal;
 
+@XmlRootElement
 public class Product {
     private String productId;
     private String name;
@@ -16,6 +22,10 @@ public class Product {
     private long unitsInOrder;
     private boolean discontinued;
     private String condition;
+    @JsonIgnore
+    private MultipartFile productImage;
+    @JsonIgnore
+    private MultipartFile productManual;
 
     public Product() {
         super();
@@ -104,6 +114,24 @@ public class Product {
 
     public void setCondition(String condition) {
         this.condition = condition;
+    }
+
+    @XmlTransient
+    public MultipartFile getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(MultipartFile productImage) {
+        this.productImage = productImage;
+    }
+
+    @XmlTransient
+    public MultipartFile getProductManual() {
+        return productManual;
+    }
+
+    public void setProductManual(MultipartFile productManual) {
+        this.productManual = productManual;
     }
 
     @Override

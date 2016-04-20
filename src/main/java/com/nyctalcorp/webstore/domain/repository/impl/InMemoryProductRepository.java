@@ -4,8 +4,7 @@ package com.nyctalcorp.webstore.domain.repository.impl;
  * Created by Giacinto on 18/03/2016.
  */
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import com.nyctalcorp.webstore.domain.Product;
 import org.springframework.stereotype.Repository;
@@ -55,5 +54,75 @@ public class InMemoryProductRepository implements ProductRepository{
             throw new IllegalArgumentException("No products found with the product id: "+ productId);
         }
         return productById;
+    }
+    @Override
+    public List<Product> getProductsByCategory(String category) {
+        List<Product> productsByCategory = new ArrayList<Product>();
+        for(Product product: listOfProducts) {
+            if(category.equalsIgnoreCase(product.getCategory())){
+                productsByCategory.add(product);
+            }
+        }
+        return productsByCategory;
+    }
+    @Override
+    public Set<Product> getProductsByFilter(Map<String, List<String>> filterParams) {
+        Set<Product> productsByBrand = new HashSet<Product>();
+        Set<Product> productsByCategory = new HashSet<Product>();
+        Set<String> criterias = filterParams.keySet();
+        if(criterias.contains("brand")) {
+            for(String brandName: filterParams.get("brand")) {
+                for(Product product: listOfProducts) {
+                    if(brandName.equalsIgnoreCase(product.getManufacturer())){
+                        productsByBrand.add(product);
+                    }
+                }
+            }
+        }
+        if(criterias.contains("category")) {
+            for(String category: filterParams.get("category")) {
+                productsByCategory.addAll(this.getProductsByCategory(category));
+            }
+        }
+        productsByCategory.retainAll(productsByBrand);
+        return productsByCategory;
+    }
+    @Override
+    public List<Product> getProductsByManufacturer(String manufacturer) {
+        List<Product> getProductsByManufacturer = new ArrayList<Product>();
+        for(Product product: listOfProducts) {
+            if(manufacturer.equalsIgnoreCase(product.getManufacturer())){
+                getProductsByManufacturer.add(product);
+            }
+        }
+        return getProductsByManufacturer;
+    }
+
+    @Override
+    public List<Product> getProductsByPriceFilter(BigDecimal low, BigDecimal high) {
+        List<Product> productsByPriceFilter = new ArrayList<Product>();
+
+        for (Product product : listOfProducts) {
+            if (low.compareTo(product.getUnitPrice()) <= 0 && high.compareTo(product.getUnitPrice()) >= 0) {
+                productsByPriceFilter.add(product);
+            }
+        }
+        return productsByPriceFilter;
+    }
+
+    @Override
+    public Set<Product> filterProducts(BigDecimal lowPrice, BigDecimal highPrice, String manufacturer, String category) {
+        // This is super inefficient, but whatever
+        Set<Product> byPrice = new HashSet<Product>(getProductsByPriceFilter(lowPrice, highPrice));
+        Set<Product> byManufacturer = new HashSet<Product>(getProductsByManufacturer(manufacturer));
+        Set<Product> byCategory = new HashSet<Product>(getProductsByCategory(category));
+
+        byPrice.retainAll(byManufacturer);
+        byPrice.retainAll(byCategory);
+
+        return byPrice;
+    }
+    public void addProduct(Product product) {
+        listOfProducts.add(product);
     }
 }
