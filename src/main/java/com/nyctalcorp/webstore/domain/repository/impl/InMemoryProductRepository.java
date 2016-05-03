@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import com.nyctalcorp.webstore.domain.Product;
+import com.nyctalcorp.webstore.exception.ProductNotFoundException;
 import org.springframework.stereotype.Repository;
 import com.nyctalcorp.webstore.domain.repository.ProductRepository;
 
@@ -51,7 +52,7 @@ public class InMemoryProductRepository implements ProductRepository{
             }
         }
         if(productById == null){
-            throw new IllegalArgumentException("No products found with the product id: "+ productId);
+            throw new ProductNotFoundException("No products found with the product id: "+ productId);
         }
         return productById;
     }
