@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
@@ -90,7 +91,10 @@ public class ProductController {
 }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String processAddNewProductForm(@ModelAttribute("newProduct") Product productToBeAdded, BindingResult result, HttpServletRequest request) {
+    public String processAddNewProductForm(@ModelAttribute("newProduct") @Valid Product productToBeAdded, BindingResult result, HttpServletRequest request) {
+        if(result.hasErrors()) {
+            return "addProduct";
+        }
         String[] suppressedFields = result.getSuppressedFields();
         if (suppressedFields.length > 0) {
             throw new RuntimeException("Attempting to bind disallowed fields: " + StringUtils.arrayToCommaDelimitedString(suppressedFields));
@@ -114,6 +118,10 @@ public class ProductController {
         }
         productService.addProduct(productToBeAdded);
         return "redirect:/products";
+    }
+    @RequestMapping("/invalidPromoCode")
+    public String invalidPromoCode() {
+        return "invalidPromoCode";
     }
     @InitBinder
     public void initialiseBinder(WebDataBinder binder) {

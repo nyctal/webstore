@@ -5,7 +5,7 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <mvc:annotation-driven enable-matrix-variables="true"/>
+    <mvc:annotation-driven enable-matrix-variables="true" validator="validator"/>
     <context:component-scan base-package="com.nyctalcorp.webstore" />
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/" />
@@ -49,5 +49,13 @@
             <property name="paramName" value="language"/>
         </bean>
         <bean class= "com.nyctalcorp.webstore.interceptor.AuditingInterceptor"/>
+        <bean class="com.nyctalcorp.webstore.interceptor.PromoCodeInterceptor">
+            <property name="promoCode" value="OFF3R"/>
+            <property name="errorRedirect" value="invalidPromoCode"/>
+            <property name="offerRedirect" value="products"/>
+        </bean>
     </mvc:interceptors>
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
 </beans>
