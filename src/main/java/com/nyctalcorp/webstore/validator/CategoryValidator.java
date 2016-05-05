@@ -11,7 +11,6 @@ import java.util.EnumMap;
 
 public class CategoryValidator implements ConstraintValidator<Category, String>{
 
-    @Autowired
     private AllowedCategories allowedCategories;
 
     public void initialize(Category category) {
