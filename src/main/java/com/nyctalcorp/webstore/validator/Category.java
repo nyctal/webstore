@@ -15,7 +15,7 @@ import javax.validation.Payload;
 
 @Target( { METHOD, FIELD, ANNOTATION_TYPE })
 @Retention(RUNTIME)
-@Constraint(validatedBy = ProductIdValidator.class)
+@Constraint(validatedBy = CategoryValidator.class)
 @Documented
 public @interface Category {
     String message() default" {com.nyctalcorp.webstore.validator.Category.message}";
