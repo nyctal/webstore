@@ -58,4 +58,16 @@
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <property name="validationMessageSource" ref="messageSource"/>
     </bean>
+    <bean id="productValidator" class="com.nyctalcorp.webstore.validator.ProductValidator">
+        <property name = "springValidators">
+            <set>
+                <ref bean = "unitsInStockValidator"/>
+                <ref bean = "productImageValidator"/>
+            </set>
+        </property>
+    </bean>
+    <bean id="unitsInStockValidator" class="com.nyctalcorp.webstore.validator.UnitsInStockValidator"/>
+    <bean id="productImageValidator" class="com.nyctalcorp.webstore.validator.ProductImageValidator">
+        <property name="allowedSize" value="1"/>
+    </bean>
 </beans>

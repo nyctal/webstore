@@ -3,8 +3,6 @@ package com.nyctalcorp.webstore.validator;
 /**
  * Created by Giacinto on 04/05/2016.
  */
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.EnumMap;
@@ -19,7 +17,7 @@ public class CategoryValidator implements ConstraintValidator<Category, String>{
     }
     public boolean isValid(String value, ConstraintValidatorContext context) {
         EnumMap<AllowedCategories, String> map =  new EnumMap<AllowedCategories, String>(AllowedCategories.class);
-        return map.containsValue(value);
+        return allowedCategories.toString().equalsIgnoreCase(value);
     }
 
 }
