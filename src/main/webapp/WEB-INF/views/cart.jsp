@@ -64,7 +64,7 @@
                 <th></th>
             </tr>
         </table>
-        <a href="<spring:url value="/products" />" class="btn btndefault">
+        <a href="<spring:url value="/products" />" class="btn btn-default">
             <span class="glyphicon-hand-left glyphicon"></span>
             Continue shopping
         </a>
