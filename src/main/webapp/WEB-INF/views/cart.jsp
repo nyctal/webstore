@@ -12,7 +12,7 @@
 <head>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
-    <script src="/resource/js/controllers.js"></script>
+    <script src="<c:url value="/resource/js/controllers.js"> </c:url>" ></script>
     <title>Cart</title>
 </head>
 <body>
@@ -50,7 +50,7 @@
                 <td>{{item.quantity}}</td>
                 <td>{{item.totalPrice}}</td>
                 <td>
-                    <a href="#" class="label label-danger" ngclick="removeFromCart(item.product.productId)">
+                    <a href="#" class="label label-danger" ng-click="removeFromCart(item.product.productId)">
                     <span class="glyphicon glyphicon-remove" /></span>
                     Remove
                     </a>

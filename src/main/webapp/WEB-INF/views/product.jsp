@@ -15,7 +15,7 @@
     <title>Products</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
-    <script src="/resource/js/controllers.js"></script>
+    <script src="<c:url value="/resource/js/controllers.js"> </c:url>" ></script>
 </head>
 <body>
 <section>
@@ -51,7 +51,7 @@
                     <span class="glyphicon-hand-left glyphicon"></span> back
                 </a>
                 <a href="#" class="btn btn-warning btn-large"
-                            ngclick="addToCart('${product.productId}')">
+                            ng-click="addToCart('${product.productId}')">
                     <span class="glyphicon-shopping-cart glyphicon"></span> Order Now </a>
                 <a href="<spring:url value="/cart" />" class="btn btn-default">
                     <span class="glyphicon-hand-right glyphicon"></span> View Cart </a>

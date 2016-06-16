@@ -20,32 +20,38 @@ import com.nyctalcorp.webstore.domain.Product;
 import com.nyctalcorp.webstore.exception.ProductNotFoundException;
 import com.nyctalcorp.webstore.service.CartService;
 import com.nyctalcorp.webstore.service.ProductService;
+
 @Controller
 @RequestMapping(value = "rest/cart")
 public class CartRestController {
     @Autowired
     private CartService cartService;
+
     @Autowired
     private ProductService productService;
+
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody Cart create(@RequestBody Cart cart) {
         return cartService.create(cart);
     }
+
     @RequestMapping(value = "/{cartId}", method = RequestMethod.GET)
     public @ResponseBody Cart read(@PathVariable(value = "cartId") String cartId) {
         return cartService.read(cartId);
     }
+
     @RequestMapping(value = "/{cartId}", method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@PathVariable(value = "cartId") String cartId,
-                       @RequestBody Cart cart) {
+    public void update(@PathVariable(value = "cartId") String cartId, @RequestBody Cart cart) {
         cartService.update(cartId, cart);
     }
+
     @RequestMapping(value = "/{cartId}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(value = "cartId") String cartId) {
         cartService.delete(cartId);
     }
+
     @RequestMapping(value = "/add/{productId}", method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void addItem(@PathVariable String productId,
@@ -62,6 +68,7 @@ public class CartRestController {
         cart.addCartItem(new CartItem(product));
         cartService.update(sessionId, cart);
     }
+
     @RequestMapping(value = "/remove/{productId}", method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void removeItem(@PathVariable String productId,
@@ -79,6 +86,7 @@ public class CartRestController {
         cart.removeCartItem(new CartItem(product));
         cartService.update(sessionId, cart);
     }
+
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason="Illegal request, please verify your payload")
             public void handleClientErrors(Exception ex) { }
